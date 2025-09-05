@@ -1,10 +1,10 @@
 // src/components/layout/Dashboard.tsx
 import React, { useState, useEffect, useMemo } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell, AreaChart, Area } from 'recharts';
-import { Calendar, Filter, TrendingUp, Thermometer, Cloud, Sun, Activity, Loader } from 'lucide-react';
+import { Filter, TrendingUp, Thermometer, Cloud, Sun, Activity, Loader } from 'lucide-react';
 import './Dashboard.css';
 
-const API_BASE_URL = 'http://localhost:4000';
+const API_BASE_URL = 'https://admira-reto.onrender.com';
 
 interface WeatherData {
   date: string;
@@ -354,7 +354,6 @@ const Dashboard: React.FC = () => {
                   />
                   <YAxis className="chart-axis" tick={{ fontSize: 12 }} />
                   <Tooltip 
-                    className="chart-tooltip"
                     formatter={(value: any, name: string) => [
                       `${value}°C`, 
                       name === 'avgTemp' ? 'Temperatura Media' : 'Media Móvil 7 días'
@@ -398,7 +397,6 @@ const Dashboard: React.FC = () => {
                   />
                   <YAxis className="chart-axis" tick={{ fontSize: 12 }} />
                   <Tooltip 
-                    className="chart-tooltip"
                     formatter={(value: any) => [`${value}°C`, 'Temperatura Promedio']}
                   />
                   <Bar 
@@ -461,12 +459,11 @@ const Dashboard: React.FC = () => {
                     className="pie-chart"
                     onClick={() => setSelectedChart(selectedChart === 'distribution' ? null : 'distribution')}
                   >
-                    {temperatureRanges.map((entry, index) => (
+                    {temperatureRanges.map((_, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
                   <Tooltip 
-                    className="chart-tooltip"
                     formatter={(value: any) => [`${value} registros`, 'Cantidad']}
                   />
                 </PieChart>
@@ -491,7 +488,6 @@ const Dashboard: React.FC = () => {
                   />
                   <YAxis className="chart-axis" tick={{ fontSize: 12 }} />
                   <Tooltip 
-                    className="chart-tooltip"
                     formatter={(value: any) => [`${value}°C`, 'Temperatura Máxima']}
                     labelFormatter={(label) => `Ciudad: ${label}`}
                   />
@@ -500,7 +496,7 @@ const Dashboard: React.FC = () => {
                     className="bar-primary"
                     onClick={() => setSelectedChart(selectedChart === 'topCities' ? null : 'topCities')}
                   >
-                    {topCitiesByMaxTemp.map((entry, index) => (
+                    {topCitiesByMaxTemp.map((_, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Bar>
@@ -526,7 +522,6 @@ const Dashboard: React.FC = () => {
                   />
                   <YAxis className="chart-axis" tick={{ fontSize: 12 }} />
                   <Tooltip 
-                    className="chart-tooltip"
                     formatter={(value: any) => [`${value}%`, 'Cambio Porcentual']}
                     labelFormatter={(label) => `Ciudad: ${label}`}
                   />
@@ -563,7 +558,7 @@ const Dashboard: React.FC = () => {
             <div className="drill-down-content">
               {selectedChart === 'cities' && (
                 <div className="detail-grid">
-                  {cityAggregation.map((city, index) => (
+                  {cityAggregation.map((city) => (
                     <div key={city.city} className="detail-card">
                       <h4>{city.city}</h4>
                       <div className="detail-metrics">
@@ -607,7 +602,7 @@ const Dashboard: React.FC = () => {
               
               {selectedChart === 'change' && (
                 <div className="detail-grid">
-                  {temperatureChange.map((city, index) => (
+                  {temperatureChange.map((city) => (
                     <div key={city.city} className="detail-card">
                       <h4>{city.city}</h4>
                       <div className="detail-metrics">
